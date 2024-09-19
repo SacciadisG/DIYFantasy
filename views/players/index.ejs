@@ -1,0 +1,32 @@
+    <% layout('layouts/boilerplate') %>
+    <h1>All Players!</h1>
+    <p>
+    <div class="card">
+        <a href="/players/new" class="btn btn-primary">Add Player</a>
+    </div>
+    </p>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th scope="col"> Player </th>
+                <th scope="col"> Fantasy Points </th>
+                <th scope="col"> Points </th>
+                <th scope="col"> Assists </th>
+                <th scope="col"> Rebounds </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let player of players) { %>
+                <tr> 
+                    <td> <a href="/players/<%= player._id %>"> <%= player.name%> </a> </td>
+                    <td> <%= player.averageFantasyPoints %> </td>
+                    <td> <%= player.averagePoints %> </td>
+                    <td> <%= player.averageAssists %> </td>
+                    <td> <%= player.averageRebounds %> </td>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+
+   

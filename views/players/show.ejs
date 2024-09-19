@@ -1,0 +1,72 @@
+<% layout('layouts/boilerplate') %>
+<h1> <%= player.name %> </h1>
+<h2> Avg Points: <%= player.averagePoints %> </h2>
+<h2> Avg Assists: <%= player.averageAssists %> </h2>
+<h2> Avg Rebounds: <%= player.averageRebounds %> </h2>
+<h2> Avg Fantasy Points: <%= player.averageFantasyPoints %> </h2>
+<div>
+<p>
+    <a href="/players/<%= player._id %>/edit" class="btn btn-primary">Edit Player</a>
+</p>
+
+<!--This should be regulated with administrative permissions (to be included)-->
+</div>
+
+<!--PLayer's Games -->
+<h3>Game Stats</h3>
+<table class="table">
+<thead>
+    <tr>
+    <th>Fantasy Points</th>
+    <th>Points</th>
+    <th>Assists</th>
+    <th>Rebounds</th>
+    <th>Steals</th>
+    <th>Blocks</th>
+    <th>Turnovers</th>
+    <th>Advanced Stats</th>
+    </tr>
+</thead>
+<tbody>
+    
+    <% player.games.forEach(function(game, index) { %>
+    <tr>
+        <td><%= game.fantasyPoints %></td>
+        <td><%= game.points %></td>
+        <td><%= game.assists %></td>
+        <td><%= game.rebounds %></td>
+        <td><%= game.steals %></td>
+        <td><%= game.blocks %></td>
+        <td><%= game.turnovers %></td>
+        <td>
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#advancedStats<%= index %>" aria-expanded="false" aria-controls="advancedStats<%= index %>">
+            Toggle Advanced Stats
+        </button>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="8">
+        <div class="collapse" id="advancedStats<%= index %>">
+            <div class="card card-body">
+            <table>
+                <tr>
+                    <td> Field Goals Made: <%= game.fgm %> </td>
+                    <td> Field Goals Attempted: <%= game.fga %> </td>
+                    <td> Field Goal %: <%= game.fgp %> </td>
+                    <td> Threes Made: <%= game.tpm %> </td>
+                    <td> Threes Attempted: <%= game.tpa %> </td>
+                    <td> Three-Pointer %: <%= game.tpp %> </td>
+                </tr>
+            </table>
+            </div>
+        </div>
+        </td>
+    </tr>
+    <% }); %>
+</tbody>
+</table>
+
+<!--Go back to all players-->
+<footer>
+    <a href="/players" class="btn btn-primary">View All Players!</a>
+</footer>

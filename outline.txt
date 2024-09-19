@@ -1,0 +1,37 @@
+Fantasy Outline:
+
+//Main pages
+- home page (this week's top scorer, top passer, top rebounder - to implement later)
+- show all players [players/index]
+- show a given player (and his games) [player/show]
+
+//Admin-only pages (i.e. me)
+- create new players [players/new]
+- edit a player's information (maybe link to adding/editing games?)
+- create new games for a player []
+
+//Models 
+- players (index, new, show, edit)
+- games (new, show, edit) 
+**no index needed, because I will never need to show the games w/out the associated player
+**1 player contains many games (expecting dozens to hundreds) -> One to Many approach
+
+//Game Model:
+//Main Stats
+- Date - use Date object in Mongoose // figure it out, later
+- Fantasy Points (calculated using Pts, Ast, Reb, Stl, Blk, TO)
+- Points (1 Fantasy Pt)
+- Assists (0.8 Fantasy Pt)
+- Rebounds (0.6 Fantasy Pt)
+- Steals (2 Fantasy Pt)
+- Blocks (2 Fantasy Pt)
+- TOs (-0.5 Fantasy Pt)
+//Advanced Stats
+- Field Goals Attempted
+- Field Goals Made
+- Field Goal Percentage
+- Threes Attempted
+- Threes Made
+- Three Percentage
+
+

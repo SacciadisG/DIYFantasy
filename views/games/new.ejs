@@ -1,0 +1,51 @@
+<!--Add a New Game-->
+<% layout('layouts/boilerplate') %>
+<h1>Create a New Game for <%=player.name%>! </h1>
+<form action="/players/<%=player._id%>/games" method="POST">
+    <!-- Main Stats -->
+    <div>
+        <label for="points">Points</label>
+        <input type="number" id="points" name="game[points]">
+    </div>
+    <div>
+        <label for="assists">Assists</label>
+        <input type="number" id="assists" name="game[assists]">
+    </div>
+    <div>
+        <label for="rebounds">Rebounds</label>
+        <input type="number" id="rebounds" name="game[rebounds]">
+    </div>
+    <div>
+        <label for="steals">Steals</label>
+        <input type="number" id="steals" name="game[steals]">
+    </div>
+    <div>
+        <label for="blocks">Blocks</label>
+        <input type="number" id="blocks" name="game[blocks]">
+    </div>
+    <div>
+        <label for="turnovers">Turnovers</label>
+        <input type="number" id="turnovers" name="game[turnovers]">
+    </div>
+    <!--Line Break-->
+    <br>
+    <!-- Advanced Stats -->
+    <div>
+        <label for="fga">Field Goals Attemped</label>
+        <input type="number" id="fga" name="game[fga]">
+    </div>
+    <div>
+        <label for="fgm">Field Goals Made</label>
+        <input type="number" id="fgm" name="game[fgm]">
+    </div>
+    <div>
+        <label for="tpa">Threes Attemped</label>
+        <input type="number" id="tpa" name="game[tpa]">
+    </div>
+    <div>
+        <label for="tpm">Threes Made</label>
+        <input type="number" id="tpm" name="game[tpm]">
+    </div>
+    <button>Create Game</button>
+</form>    
+<a href="/players/<%= player._id%>">Back to Player</a>  
