@@ -43,10 +43,10 @@ gameSchema.methods.calculateFantasyPoints = function() {
 };
 
 //Ensure calculations are performed before saving
-gameSchema.pre('save', function(next) {
-    this.calculateFGP();
-    this.calculateTPP();
-    this.calculateFantasyPoints();
+gameSchema.pre('save', async function(next) {
+    await this.calculateFGP();
+    await this.calculateTPP();
+    await this.calculateFantasyPoints();
     next();
 });
 

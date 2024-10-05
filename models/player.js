@@ -84,11 +84,11 @@ PlayerSchema.methods.calculateAverageFantasyPoints = async function() {
 };
 
 //Update a player's avg stats before it's saved
-PlayerSchema.pre('save', function(next) {
-    this.calculateAveragePoints();
-    this.calculateAverageAssists();
-    this.calculateAverageRebounds();
-    this.calculateAverageFantasyPoints();
+PlayerSchema.pre('save', async function(next) {
+    await this.calculateAveragePoints();
+    await this.calculateAverageAssists();
+    await this.calculateAverageRebounds();
+    await this.calculateAverageFantasyPoints();
     next();
 });
 

@@ -5,6 +5,7 @@ const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const Player = require('./models/player');
 const Game = require('./models/game');
+const player = require('./models/player');
 const app = express(); //Easier to write "app".[method]
 
 //Connect to mongoose
@@ -103,8 +104,10 @@ app.get('/players/:id/games/:gameId/edit', async (req, res) => {
 
 app.put('/players/:id/games/:gameId', async(req, res) => {
     const { id, gameId } = req.params; 
+    const player = await Player.findById(id);
     const game = await Game.findByIdAndUpdate(gameId, {...req.body.game});
     await game.save();
+    await player.save();
     //Remember that the "..." is the spread operator and splits the req body into multiple objects (i.e. our player values)
     res.redirect(`/players/${id}`) //Go back to that player's page
 })
