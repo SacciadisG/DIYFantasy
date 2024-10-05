@@ -25,6 +25,7 @@
     <th>Blocks</th>
     <th>Turnovers</th>
     <th>Advanced Stats</th>
+    <th>Edit Game</th>
     </tr>
 </thead>
 <tbody>
@@ -42,6 +43,11 @@
         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#advancedStats<%= index %>" aria-expanded="false" aria-controls="advancedStats<%= index %>">
             Toggle Advanced Stats
         </button>
+        <td>
+            <form action="/players/<%= player._id %>/games/<%= game._id %>/edit" method="GET">
+                <button class="btn btn-primary">Edit Game</button>
+            </form>
+        </td>
         </td>
     </tr>
     <tr>

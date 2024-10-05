@@ -91,13 +91,24 @@ app.post('/players/:id/games', async (req, res) => {
     player.games.push(game);
     await game.save();
     await player.save();
-    console.log(game);
-    console.log(player);
-    res.redirect(`/players/${player._id}`);
+    res.redirect(`/players/${player._id}`); //Backticks help create a template literal, so you concat the string "/players/ + the player id"
 })
 
 //Edit a game
-//TBD
+app.get('/players/:id/games/:gameId/edit', async (req, res) => {
+    const player = await Player.findById(req.params.id);
+    const game = await Game.findById(req.params.gameId);
+    res.render('games/edit', {player, game})
+})
+
+app.put('/players/:id/games/:gameId', async(req, res) => {
+    const { id, gameId } = req.params; 
+    const game = await Game.findByIdAndUpdate(gameId, {...req.body.game});
+    await game.save();
+    //Remember that the "..." is the spread operator and splits the req body into multiple objects (i.e. our player values)
+    res.redirect(`/players/${id}`) //Go back to that player's page
+})
+
 
 //Delete a game
 //TBD
