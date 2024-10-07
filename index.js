@@ -73,7 +73,6 @@ app.put('/players/:id', async (req, res) => {
 
 //Delete a Player
 app.delete('/players/:id', async (req, res) => {
-    console.log("Please work for the love of god.");
     const { id } = req.params;
     await Player.findByIdAndDelete(id);
     res.redirect('/players');
@@ -112,9 +111,14 @@ app.put('/players/:id/games/:gameId', async(req, res) => {
     res.redirect(`/players/${id}`) //Go back to that player's page
 })
 
-
 //Delete a game
-//TBD
+app.delete('/players/:id/games/:gameId', async (req, res) => {
+    const { id, gameId } = req.params;
+    const player = await Player.findById(id);
+    await Game.findByIdAndDelete(gameId);
+    await player.save();
+    res.redirect(`/players/${id}`) //Go back to that player's page
+})
 
 //Runs server on port 3000
 app.listen(3000, () => {

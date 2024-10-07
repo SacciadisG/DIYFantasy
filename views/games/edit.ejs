@@ -45,11 +45,10 @@
     <button>Update game</button>
 </form>    
 
-<!--
-<form method="post" action="/players/<%=player._id%>/edit?_method=PATCH" >
-    <button class="btn btn-danger">Delete Player</button>
+<form method="POST" action="/players/<%=player._id%>/games/<%=game._id%>?_method=DELETE" >
+    <button class="btn btn-danger">Delete Game</button>
 </form>
--->
+
 
 <div>
     <a href="/players/<%= player._id%>" class="btn btn-primary">Back to Player </a>  
