@@ -5,8 +5,9 @@ const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const Player = require('./models/player');
 const Game = require('./models/game');
-const player = require('./models/player');
 const app = express(); //Easier to write "app". [method]
+
+const players = require('./routes/players');
 
 //Connect to mongoose
 mongoose.connect('mongodb://localhost:27017/fantasy');
@@ -27,56 +28,14 @@ app.use(express.urlencoded({ extended: true }));
 //Remember to npm install method-override for this
 app.use(methodOverride('_method'));
 
+
+//Routed Pages here
+app.use('/players', players)
+
 //HOME PAGE
 app.get('/', (req, res) => {
     res.render('home')
 });
-
-
-//PLAYER ROUTES
-//Index page - All Players
-app.get('/players', async (req, res) => {
-    const players = await Player.find({});
-    res.render('players', {players});
-})
-
-//Make a New Player
-app.get('/players/new', (req, res) => {
-    res.render('players/new');
-})
-
-app.post('/players', async (req, res) => {
-    const player = new Player(req.body.player);
-    await player.save();
-    res.redirect(`/players/${player._id}`);
-})
-
-//Find a Specific Player
-app.get('/players/:id', async (req, res) => {
-    const player = await Player.findById(req.params.id).populate('games');
-    console.log(player);
-    res.render('players/show', {player});
-})
-
-//Update a Player
-app.get('/players/:id/edit', async (req, res) => {
-    const player = await Player.findById(req.params.id)
-    res.render('players/edit', {player});
-})
-
-app.put('/players/:id', async (req, res) => {
-    const { id } = req.params;
-    const player = await Player.findByIdAndUpdate(id, {...req.body.player}) 
-    //Remember that the "..." is the spread operator and splits the req body into multiple objects (i.e. our player values)
-    res.redirect(`/players/${player._id}`)
-})
-
-//Delete a Player
-app.delete('/players/:id', async (req, res) => {
-    const { id } = req.params;
-    await Player.findByIdAndDelete(id);
-    res.redirect('/players');
-})
 
 //Create a New Game
 app.get('/players/:id/games', async (req, res) => {
