@@ -6,7 +6,7 @@ const methodOverride = require('method-override');
 const Player = require('./models/player');
 const Game = require('./models/game');
 const player = require('./models/player');
-const app = express(); //Easier to write "app".[method]
+const app = express(); //Easier to write "app". [method]
 
 //Connect to mongoose
 mongoose.connect('mongodb://localhost:27017/fantasy');
