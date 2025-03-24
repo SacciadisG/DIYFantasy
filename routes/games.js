@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router({mergeParams: true});
 const Player = require('../models/player.js');
 const Game = require('../models/game.js');
 
