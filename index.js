@@ -13,6 +13,9 @@ const User = require('./models/user');
 const Player = require('./models/player');
 const Game = require('./models/game');
 
+// Middleware
+const { isLoggedIn, isAdmin } = require('./middleware');
+
 // Routes
 const players = require('./routes/players');
 const games = require('./routes/games');
@@ -57,7 +60,7 @@ app.use('/players/:id/games', games)
 app.use('/auth', auth)
 
 //HOME PAGE
-app.get('/', (req, res) => {
+app.get('/', isLoggedIn, (req, res) => {
     res.render('home')
 });
 
