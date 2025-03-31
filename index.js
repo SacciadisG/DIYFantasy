@@ -4,9 +4,11 @@ const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const session = require('express-session');
+// const ExpressError = require('./utils/ExpressError');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-const app = express(); //Easier to write "app". [method]
+
+const app = express(); 
 
 // Models
 const User = require('./models/user');
@@ -32,12 +34,14 @@ db.once("open", () => { //Listens for "Open" event, i.e. an established connecti
 app.engine('ejs', ejsMate); //Use ejsMate instead of default express engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
+
 app.use(express.urlencoded({ extended: true })); //This helps with parsing URL data - good to include for our forms
 app.use(methodOverride('_method')); 
+app.use(express.static(path.join(__dirname, 'public')));
 
 //Passport & Session Setup
 const sessionConfig = {
-    secret: 'DIYFantasy',
+    secret: 'DIYFantasy', // This will be moved to an .env file soon enough
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -48,6 +52,9 @@ const sessionConfig = {
 }
 
 app.use(session(sessionConfig)); //Setup express session
+// app.use(flash());
+// app.use((req, res, next) => { flash yap }
+
 app.use(passport.initialize()); //Initialize passport framework
 app.use(passport.session()); //Be sure to 'use' this after we use 'session'
 passport.use(new LocalStrategy(User.authenticate())); //Telling passport to use the passport-given authentication method for our User model
@@ -63,6 +70,17 @@ app.use('/auth', auth)
 app.get('/', isLoggedIn, (req, res) => {
     res.render('home')
 });
+
+// Unidentified routes get their errors handled via this middleware & the custom Error class
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page Not Found', 404))
+})
+
+app.use((err, req, res, next) => {
+    const { statusCode = 500 } = err; //Default status code is 500
+    if (!err.message) err.message = "Something went wrong!"
+    res.status(statusCode).render('error', { err })
+})
 
 //Runs server on port 3000
 app.listen(3000, () => {

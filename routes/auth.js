@@ -4,6 +4,9 @@ const passport = require("passport");
 const User = require('../models/user');
 const { isLoggedIn, isAdmin } = require('../middleware');
 
+const catchAsync = require('../utils/catchAsync');
+const ExpressError = require('../utils/ExpressError');
+
 router.get('/login', (req, res) => {
     res.render('auth/login');
 })
@@ -20,7 +23,7 @@ router.get('/register', (req, res) => {
     res.render('auth/register');
 })
 
-router.post('/register', async (req, res) => {
+router.post('/register', catchAsync(async (req, res) => {
     try {
         const { username, password, full_name, email } = req.body;
         
@@ -37,7 +40,7 @@ router.post('/register', async (req, res) => {
         //req.flash('error', 'Registration failed. Please try again.');
         res.redirect('/auth/register');
     }
-})
+}))
 
 //Note: Passport's logout requires a callback function
 router.post('/logout', isLoggedIn, (req, res, next) => {

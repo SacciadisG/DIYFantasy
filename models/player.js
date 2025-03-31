@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const PlayerSchema = new Schema({
-    name: String,
+    name: { type: String, required: true },
     image: String, 
     averagePoints: {type: Number, default: 0}, 
     averageAssists: {type: Number, default: 0}, 
