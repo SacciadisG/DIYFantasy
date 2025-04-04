@@ -4,10 +4,12 @@ const passportLocalMongoose = require('passport-local-mongoose');
 
 const UserSchema = new Schema({
     // Username & Password are already included with Passport
-    isAdmin: { type: Boolean, default: false, required: true },
-    full_name: { type: String, required: false },
-    email: { type: String, required: false }
-    // More fields go here
+    email: { 
+        type: String, 
+        required: true, 
+        unique: true 
+    }
+    // Extra fields go here
 });
 
 /* Note:

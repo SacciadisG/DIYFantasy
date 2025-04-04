@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const session = require('express-session');
-// const ExpressError = require('./utils/ExpressError');
+const flash = require('connect-flash');
+const ExpressError = require('./utils/ExpressError');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 
@@ -14,9 +15,6 @@ const app = express();
 const User = require('./models/user');
 const Player = require('./models/player');
 const Game = require('./models/game');
-
-// Middleware
-const { isLoggedIn, isAdmin } = require('./middleware');
 
 // Routes
 const players = require('./routes/players');
@@ -52,14 +50,21 @@ const sessionConfig = {
 }
 
 app.use(session(sessionConfig)); //Setup express session
-// app.use(flash());
-// app.use((req, res, next) => { flash yap }
+app.use(flash());
 
 app.use(passport.initialize()); //Initialize passport framework
 app.use(passport.session()); //Be sure to 'use' this after we use 'session'
 passport.use(new LocalStrategy(User.authenticate())); //Telling passport to use the passport-given authentication method for our User model
 passport.serializeUser(User.serializeUser()); //How to store a user in the session i.e. log them in & keep them logged in
 passport.deserializeUser(User.deserializeUser()); //How to remove a user from a session i.e. log them out
+
+app.use((req, res, next) => {
+    console.log(req.session) // For testing purposes
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
 
 //Routed Pages here
 app.use('/players', players)
@@ -84,5 +89,5 @@ app.use((err, req, res, next) => {
 
 //Runs server on port 3000
 app.listen(3000, () => {
-    console.log("APP IS LISTENING ON PORT 3000!")
+    console.log("App is listening on Port 3000!")
 })

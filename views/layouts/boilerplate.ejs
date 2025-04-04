@@ -11,15 +11,12 @@
 
 </head>
 <body class="d-flex flex-column vh-100">
-    <!--Bootstrap Navbar -->
-    <%- include('../partials/navbar') %>
-    <!--This contains the content of each page we apply the layout to-->
-    <main class="container mt-3">
+    <%- include('../partials/navbar')%>
+    <main class="container mt-5">
+        <%- include('../partials/flash')%>
         <%- body %>
     </main>
-    <!--Bootstrap Footer-->
-    <%- include('../partials/footer') %>
-    
+    <%- include('../partials/footer')%>
     <!--Bootstrap scripts-->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" 
     integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" 
@@ -27,5 +24,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" 
     integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" 
     crossorigin="anonymous"></script>
+    <!-- Bootstrap Form Validation Script -->
+    <script src='/javascripts/validateForms.js'></script>
 </body>
 </html>

@@ -1,20 +1,67 @@
-const isLoggedIn = (req, res, next) => {
+const { playerSchema, gameSchema } = require('./schemas.js');
+const ExpressError = require('./utils/ExpressError');
+const Player = require('./models/player');
+const Game = require('./models/game');
+
+module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
-      //Add flash here, later => *Advise user they need to be logged in to proceed
-      console.log("Not authenticated"); //For testing purposes
+      req.session.returnTo = req.originalUrl
+      req.flash('error', "You must be signed in first.")
       return res.redirect("/auth/login");
     }
     next();
   };
-  const isAdmin = (req, res, next) => {
+
+/*
+module.exports.isAdmin = (req, res, next) => {
     if (req.isAuthenticated() && req.user.isAdmin) { // isAdmin is a boolean value in User model
       return next();
     }
     res.status(403).json({ message: "Access restricted to admins only" });
   };
-  
-  module.exports = {
-    isLoggedIn,
-    isAdmin
-  };
+*/
+
+module.exports.validatePlayer = (req, res, next) => {
+  const { error } = playerSchema.validate(req.body);
+  if (error) {
+      const msg = error.details.map(el => el.message).join(',')
+      throw new ExpressError(msg, 400)
+  } else {
+      next();
+  }
+}
+
+module.exports.validateGame = (req, res, next) => {
+  const { error } = gameSchema.validate(req.body);
+  if (error) {
+      const msg = error.details.map(el => el.message).join(',')
+      throw new ExpressError(msg, 400)
+  } else {
+      next();
+  }
+}
+
+/* Modify these later to account for league owners, when implemented
+module.exports.isAuthor = async (req, res, next) => {
+  const { id } = req.params;
+  const campground = await Campground.findById(id);
+  if (!campground.author.equals(req.user._id)) {
+      req.flash('error', 'You do not have permission to do that!');
+      return res.redirect(`/campgrounds/${id}`);
+  }
+  next();
+}
+
+module.exports.isReviewAuthor = async (req, res, next) => {
+  const { id, reviewId } = req.params;
+  const review = await Review.findById(reviewId);
+  if (!review.author.equals(req.user._id)) {
+      req.flash('error', 'You do not have permission to do that!');
+      return res.redirect(`/campgrounds/${id}`);
+  }
+  next();
+}
+*/
+
+
   

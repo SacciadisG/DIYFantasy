@@ -6,17 +6,21 @@ const { number } = require('joi');
 
 module.exports.playerSchema = Joi.object({
     player: Joi.object({
-        title: Joi.string().required(),
-        price: Joi.number().required().min(0),
-        image: Joi.string().required(),
-        location: Joi.string().required(),
-        description: Joi.string().required()
+        name: Joi.string().required()
     }).required()
 });
 
-module.exports.reviewSchema = Joi.object({
+module.exports.gameSchema = Joi.object({
     review: Joi.object({
-        rating: Joi.number().required().min(1).max(5),
-        body: Joi.string().required()
+        points: Joi.number().required().min(0),
+        assists: Joi.number().required().min(0),
+        rebounds: Joi.number().required().min(0),
+        steals: Joi.number().required().min(0),
+        blocks: Joi.number().required().min(0),
+        turnovers: Joi.number().required().min(0),
+        fga: Joi.number().required().min(0),
+        fgm: Joi.number().required().min(0),
+        tpa: Joi.number().required().min(0),
+        tpm: Joi.number().required().min(0)
     }).required()
 })

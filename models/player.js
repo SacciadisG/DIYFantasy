@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const PlayerSchema = new Schema({
-    name: { type: String, required: true },
+    name: String,
     image: String, 
     averagePoints: {type: Number, default: 0}, 
     averageAssists: {type: Number, default: 0}, 
@@ -30,9 +30,6 @@ PlayerSchema.methods.calculateAveragePoints = async function() {
     } else {
         this.averagePoints = 0;
     }
-    
-    // Save the updated player
-    //await this.save();
 };
 
 //Calculates a player's avg assists based on their games
@@ -46,9 +43,6 @@ PlayerSchema.methods.calculateAverageAssists = async function() {
     } else {
         this.averageAssists = 0;
     }
-    
-    // Save the updated player
-    //await this.save();
 };
 
 //Calculates a player's avg rebounds based on their games
@@ -62,9 +56,6 @@ PlayerSchema.methods.calculateAverageRebounds = async function() {
     } else {
         this.averageRebounds = 0;
     }
-    
-    // Save the updated player
-    //await this.save();
 };
 
 //Calculates a player's avg assists based on their games
@@ -78,9 +69,6 @@ PlayerSchema.methods.calculateAverageFantasyPoints = async function() {
     } else {
         this.averageFantasyPoints = 0;
     }
-    
-    // Save the updated player
-    //await this.save();
 };
 
 //Update a player's avg stats before it's saved
