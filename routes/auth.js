@@ -22,7 +22,7 @@ router.post('/register', catchAsync(async (req, res) => {
         });
     } catch (e) {
         req.flash('error', e.message);
-        res.redirect('/register');
+        res.redirect('register');
     }
 }));
 
@@ -31,7 +31,7 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
-    req.flash('success', 'welcome back!');
+    req.flash('success', 'Welcome back!');
     const redirectUrl = req.session.returnTo || '/';
     delete req.session.returnTo;
     res.redirect(redirectUrl);
@@ -39,13 +39,13 @@ router.post('/login', passport.authenticate('local', { failureFlash: true, failu
 
 
 //Note: Passport's logout requires a callback function
-router.post('/logout', isLoggedIn, (req, res, next) => {
+router.post('/logout', (req, res, next) => {
     req.logout(function (err) {
         if (err) {
             return next(err);
         }
         req.flash('success', "Goodbye!");
-        res.redirect('/login');
+        res.redirect('/');
     });
 });
 

@@ -11,9 +11,14 @@
           <a class="nav-link" href="/players">All Players</a>
           <a class="nav-link" href="/players/new">New Player</a>
         </div>
-        <form action="/auth/logout" method="POST" style="display:flex; margin-left: auto">
-          <button class="btn btn-danger" style="display:flex; margin-left: auto" type="submit">Logout</button>
-        </form>
+        <div class="navbar-nav ms-auto">
+          <% if(!currentUser) {%>
+          <a class="nav-link active" href="/login">Login</a>
+          <a class="nav-link active" href="/register">Register</a>
+          <% } else {%>
+          <a class="nav-link" href="/logout">Logout</a>
+          <% } %>
+      </div>
       </div>
     </div>
   </nav>

@@ -8,6 +8,7 @@ const flash = require('connect-flash');
 const ExpressError = require('./utils/ExpressError');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const { isLoggedIn } = require('./middleware');
 
 const app = express(); 
 
@@ -59,7 +60,6 @@ passport.serializeUser(User.serializeUser()); //How to store a user in the sessi
 passport.deserializeUser(User.deserializeUser()); //How to remove a user from a session i.e. log them out
 
 app.use((req, res, next) => {
-    console.log(req.session) // For testing purposes
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
@@ -67,9 +67,9 @@ app.use((req, res, next) => {
 })
 
 //Routed Pages here
+app.use('/', auth)
 app.use('/players', players)
 app.use('/players/:id/games', games)
-app.use('/auth', auth)
 
 //HOME PAGE
 app.get('/', isLoggedIn, (req, res) => {
