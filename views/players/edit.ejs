@@ -1,30 +1,29 @@
-    <% layout('layouts/boilerplate') %>
-    <h1>Edit Player</h1>
-    <form action="/players/<%=player._id%>?_method=PUT" method="POST">
-        <div>
-            <label for="name">Name</label>
-            <input type="text" id="name" name="player[name]" value="<%=player.name%>">
+<% layout('layouts/boilerplate')%>
+<div class="row">
+    <h1 class="text-center">Edit Player</h1>
+    <div class="col-6 offset-3">
+        <form action="/players/<%=player._id%>?_method=PUT" method="POST" novalidate class="validated-form">
+            <div class="mb-3">
+                <label class="form-label" for="name">Player Name</label>
+                <input class="form-control" type="text" id="name" name="player[name]" value="<%=player.name%>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-success">Update Player</button>
+            </div>
+        </form>
+        <div class="mb-3">
+            <form method="POST" action="/players/<%=player._id%>?_method=DELETE">
+                <button class="btn btn-danger">Delete Player</button>
+            </form>
         </div>
-        <div>
-            <label for="averagePoints">Average Points</label>
-            <input type="number" id="averagePoints" name="player[averagePoints]" value="<%=player.averagePoints%>">
+        <div class="mb-3">
+            <a href="/players/<%= player._id%>/games" class="btn btn-primary">Add a Game</a>
+            <a href="/players/<%= player._id%>" class="btn btn-primary">Back to Player </a>  
         </div>
-        <div>
-            <label for="averageAssists">Average Assists</label>
-            <input type="number" id="averageAssists" name="player[averageAssists]" value="<%=player.averageAssists%>">
-        </div>
-        <div>
-            <label for="averageRebounds">Average Rebounds</label>
-            <input type="number" id="averageRebounds" name="player[averageRebounds]" value="<%=player.averageRebounds%>">
-        </div>
-        <button>Update Player</button>
-    </form>    
-
-    <form method="POST" action="/players/<%=player._id%>?_method=DELETE">
-        <button class="btn btn-danger">Delete Player</button>
-    </form>
-
-    <div>
-        <a href="/players/<%= player._id%>/games" class="btn btn-primary">Add a Game</a>
-        <a href="/players/<%= player._id%>" class="btn btn-primary">Back to Player </a>  
     </div>
+</div>    
+
+    

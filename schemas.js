@@ -11,7 +11,7 @@ module.exports.playerSchema = Joi.object({
 });
 
 module.exports.gameSchema = Joi.object({
-    review: Joi.object({
+    game: Joi.object({
         points: Joi.number().required().min(0),
         assists: Joi.number().required().min(0),
         rebounds: Joi.number().required().min(0),

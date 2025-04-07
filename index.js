@@ -22,23 +22,23 @@ const players = require('./routes/players');
 const games = require('./routes/games');
 const auth = require('./routes/auth');
 
-//Connect to mongoose
+// Connect to mongoose
 mongoose.connect('mongodb://localhost:27017/fantasy');
 const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:")); //Listens for "Error" event & triggers if found
-db.once("open", () => { //Listens for "Open" event, i.e. an established connection with MongoDB & triggers if found
+db.on("error", console.error.bind(console, "connection error:")); // Listens for "Error" event & triggers if found
+db.once("open", () => { // Listens for "Open" event, i.e. an established connection with MongoDB & triggers if found
     console.log("Database connected");
 });
 
-app.engine('ejs', ejsMate); //Use ejsMate instead of default express engine
+app.engine('ejs', ejsMate); // Use ejsMate instead of default express engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
 
-app.use(express.urlencoded({ extended: true })); //This helps with parsing URL data - good to include for our forms
+app.use(express.urlencoded({ extended: true })); // This helps with parsing URL data - good to include for our forms
 app.use(methodOverride('_method')); 
 app.use(express.static(path.join(__dirname, 'public')));
 
-//Passport & Session Setup
+// Passport & Session Setup
 const sessionConfig = {
     secret: 'DIYFantasy', // This will be moved to an .env file soon enough
     resave: false,
@@ -50,15 +50,16 @@ const sessionConfig = {
     }
 }
 
-app.use(session(sessionConfig)); //Setup express session
+app.use(session(sessionConfig)); // Setup express session
 app.use(flash());
 
-app.use(passport.initialize()); //Initialize passport framework
-app.use(passport.session()); //Be sure to 'use' this after we use 'session'
-passport.use(new LocalStrategy(User.authenticate())); //Telling passport to use the passport-given authentication method for our User model
-passport.serializeUser(User.serializeUser()); //How to store a user in the session i.e. log them in & keep them logged in
-passport.deserializeUser(User.deserializeUser()); //How to remove a user from a session i.e. log them out
+app.use(passport.initialize()); // Initialize passport framework
+app.use(passport.session()); // Be sure to 'use' this after we use 'session'
+passport.use(new LocalStrategy(User.authenticate())); // Telling passport to use the passport-given authentication method for our User model
+passport.serializeUser(User.serializeUser()); // How to store a user in the session i.e. log them in & keep them logged in
+passport.deserializeUser(User.deserializeUser()); // How to remove a user from a session i.e. log them out
 
+// Middleware used on every route
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
@@ -66,12 +67,12 @@ app.use((req, res, next) => {
     next();
 })
 
-//Routed Pages here
+// Routed Pages here
 app.use('/', auth)
 app.use('/players', players)
 app.use('/players/:id/games', games)
 
-//HOME PAGE
+// Home Page
 app.get('/', isLoggedIn, (req, res) => {
     res.render('home')
 });
@@ -87,7 +88,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err })
 })
 
-//Runs server on port 3000
+//Runs server
 app.listen(3000, () => {
     console.log("App is listening on Port 3000!")
 })

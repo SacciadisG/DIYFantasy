@@ -1,9 +1,9 @@
 <% layout('layouts/boilerplate') %>
 <h1> <%= player.name %> </h1>
-<h2> Avg Points: <%= player.averagePoints %> </h2>
-<h2> Avg Assists: <%= player.averageAssists %> </h2>
-<h2> Avg Rebounds: <%= player.averageRebounds %> </h2>
-<h2> Avg Fantasy Points: <%= player.averageFantasyPoints %> </h2>
+<h3> Avg Points: <%= player.averagePoints %> </h3>
+<h3> Avg Assists: <%= player.averageAssists %> </h3>
+<h3> Avg Rebounds: <%= player.averageRebounds %> </h3>
+<h3> Avg Fantasy Points: <%= player.averageFantasyPoints %> </h3>
 <div>
 <p>
     <a href="/players/<%= player._id %>/edit" class="btn btn-primary">Edit Player</a>
@@ -14,6 +14,11 @@
 
 <!--PLayer's Games -->
 <h3>Game Stats</h3>
+<% if (!player.games.length) { %>
+<div>
+    <p>No recorded games, yet.</p>
+</div>
+<% } else { %>
 <table class="table">
 <thead>
     <tr>
@@ -71,7 +76,7 @@
     <% }); %>
 </tbody>
 </table>
-
+<% } %>
 <!--Go back to all players-->
 <footer>
     <a href="/players" class="btn btn-primary">View All Players!</a>
