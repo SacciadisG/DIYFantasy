@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") { // Modify this later; will work for now.
+    require('dotenv').config();
+}
+
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -61,7 +65,6 @@ passport.deserializeUser(User.deserializeUser()); // How to remove a user from a
 
 // Middleware used on every route
 app.use((req, res, next) => {
-    console.log(req.session)
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
@@ -77,6 +80,9 @@ app.use('/players/:id/games', games)
 app.get('/', isLoggedIn, (req, res) => {
     res.render('home')
 });
+
+// Send a default file to cloudinary
+
 
 // Unidentified routes get their errors handled via this middleware & the custom Error class
 app.all('*', (req, res, next) => {

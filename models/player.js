@@ -3,7 +3,10 @@ const Schema = mongoose.Schema;
 
 const PlayerSchema = new Schema({
     name: String,
-    image: String, 
+    image: {
+        url: String, 
+        filename: String
+    },
     averagePoints: {type: Number, default: 0}, 
     averageAssists: {type: Number, default: 0}, 
     averageRebounds: {type: Number, default: 0}, 
@@ -79,6 +82,5 @@ PlayerSchema.pre('save', async function(next) {
     await this.calculateAverageFantasyPoints();
     next();
 });
-
 
 module.exports = mongoose.model('Player', PlayerSchema);

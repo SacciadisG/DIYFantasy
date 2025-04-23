@@ -5,6 +5,14 @@ const { isLoggedIn, validatePlayer } = require('../middleware');
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 
+const multer = require('multer');
+const { cloudinary, storage } = require('../cloudinary');
+const upload = multer({ storage });
+const DEFAULT_IMAGE = {
+    url: 'https://res.cloudinary.com/dve9ihpx2/image/upload/v1745366845/DIYFantasy/zedne92zx0rjoey4etpb.jpg',
+    filename: 'DIYFantasy/zedne92zx0rjoey4etpb'
+}
+
 //Index page - All Players
 router.get('/', isLoggedIn, catchAsync(async (req, res) => {
     const players = await Player.find({});
@@ -16,8 +24,11 @@ router.get('/new', isLoggedIn, (req, res) => {
     res.render('players/new');
 })
 
-router.post('/', isLoggedIn, validatePlayer, catchAsync(async (req, res) => {
+router.post('/new', isLoggedIn, upload.single('image'), /*validatePlayer,*/ catchAsync(async (req, res) => {
     const player = new Player(req.body.player);
+    player.image = req.file
+      ? { url: req.file.path, filename: req.file.filename }
+      : DEFAULT_IMAGE;
     await player.save();
     req.flash('success', 'Successfully added a new player!');
     res.redirect(`/players/${player._id}`);

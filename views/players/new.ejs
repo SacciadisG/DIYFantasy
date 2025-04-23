@@ -2,12 +2,21 @@
 <div class="row">
     <h1 class="text-center">New Player</h1>
     <div class="col-6 offset-3">
-        <form action="/players" method="POST" novalidate class="validated-form">
+        <form action="/players/new" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label" for="name">Player Name</label>
                 <input class="form-control" type="text" id="name" name="player[name]" required>
                 <div class="valid-feedback">
                     Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="form-file custom-file">
+                    <input type="file" class="form-file-input" id="image" name="image">
+                    <label class="form-file-label" for="image">
+                        <span class="form-file-text custom-file-label">Choose image</span>
+                        <span class="form-file-button">Browse</span>
+                    </label>
                 </div>
             </div>
             <div class="mb-3">

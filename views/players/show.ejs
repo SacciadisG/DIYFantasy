@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate') %>
+<img src="<%= player.image.url %>" alt="<%= player.name %>" class="img-fluid rounded-circle" style="width: 200px; height: 200px; object-fit: cover;">
 <h1> <%= player.name %> </h1>
 <h3> Avg Points: <%= player.averagePoints %> </h3>
 <h3> Avg Assists: <%= player.averageAssists %> </h3>
