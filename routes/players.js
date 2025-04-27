@@ -6,12 +6,8 @@ const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 
 const multer = require('multer');
-const { cloudinary, storage } = require('../cloudinary');
+const { cloudinary, storage, DEFAULT_IMAGE } = require('../cloudinary');
 const upload = multer({ storage });
-const DEFAULT_IMAGE = {
-    url: 'https://res.cloudinary.com/dve9ihpx2/image/upload/v1745366845/DIYFantasy/zedne92zx0rjoey4etpb.jpg',
-    filename: 'DIYFantasy/zedne92zx0rjoey4etpb'
-}
 
 //Index page - All Players
 router.get('/', isLoggedIn, catchAsync(async (req, res) => {
@@ -58,13 +54,17 @@ router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
 router.put('/:id', isLoggedIn, upload.single('image'), /*validatePlayer,*/ catchAsync(async (req, res) => {
     const { id } = req.params;
     const updatedData = req.body.player
+    const player = await Player.findById(id);
     if (req.file) {
         updatedData.image = {
             url: req.file.path, 
             filename: req.file.filename,
         };
+        const oldFilename = player.image.filename
+        if (oldFilename != DEFAULT_IMAGE.filename) { await cloudinary.uploader.destroy(oldFilename); }
     }
-    const player = await Player.findByIdAndUpdate(id, updatedData, { new: true });
+    await Player.updateOne({_id: id}, updatedData)
+    // const player = await Player.findByIdAndUpdate(id, updatedData, { new: true });
     req.flash('success', 'Successfully updated player!');
     res.redirect(`/players/${player._id}`);
 }))
@@ -72,7 +72,10 @@ router.put('/:id', isLoggedIn, upload.single('image'), /*validatePlayer,*/ catch
 //Delete a Player
 router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
-    await Player.findByIdAndDelete(id);
+    const deletedPlayer = await Player.findByIdAndDelete(id);
+    if (deletedPlayer.image && (deletedPlayer.image.filename != DEFAULT_IMAGE.filename)) {
+        await cloudinary.uploader.destroy(deletedPlayer.image.filename);
+    }
     req.flash('success', 'Successfully deleted player!')
     res.redirect('/players');
 }))

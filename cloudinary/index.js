@@ -15,7 +15,13 @@ const storage = new CloudinaryStorage({
     }
 });
 
+const DEFAULT_IMAGE = {
+    url: 'https://res.cloudinary.com/dve9ihpx2/image/upload/v1745366845/DIYFantasy/zedne92zx0rjoey4etpb.jpg',
+    filename: 'DIYFantasy/zedne92zx0rjoey4etpb'
+}
+
 module.exports = {
     cloudinary,
-    storage
+    storage,
+    DEFAULT_IMAGE
 }
