@@ -2,28 +2,47 @@
 <div class="row">
     <h1 class="text-center">Edit Player</h1>
     <div class="col-6 offset-3">
-        <form action="/players/<%=player._id%>?_method=PUT" method="POST" novalidate class="validated-form">
+        <form action="/players/<%= player._id %>?_method=PUT" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label" for="name">Player Name</label>
-                <input class="form-control" type="text" id="name" name="player[name]" value="<%=player.name%>" required>
+                <input class="form-control" type="text" id="name" name="player[name]" value="<%= player.name %>" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
             </div>
+
+            <!-- Display the current player's image -->
+            <div class="mb-3">
+                <label for="currentImage" class="form-label">Current Image</label>
+                <div>
+                    <img 
+                        src="<%= player.image.url %>" 
+                        alt="<%= player.name %>'s image" 
+                        class="img-fluid rounded-circle" 
+                        style="width: 150px; height: 150px; object-fit: cover;">
+                </div>
+            </div>
+
+            <!-- Option to upload a new image -->
+            <div class="mb-3">
+                <label for="image" class="form-label">Update Player Image</label>
+                <input class="form-control" type="file" id="image" name="image">
+            </div>              
+
             <div class="mb-3">
                 <button class="btn btn-success">Update Player</button>
             </div>
         </form>
+
         <div class="mb-3">
-            <form method="POST" action="/players/<%=player._id%>?_method=DELETE">
+            <form method="POST" action="/players/<%= player._id %>?_method=DELETE">
                 <button class="btn btn-danger">Delete Player</button>
             </form>
         </div>
+
         <div class="mb-3">
-            <a href="/players/<%= player._id%>/games" class="btn btn-primary">Add a Game</a>
-            <a href="/players/<%= player._id%>" class="btn btn-primary">Back to Player </a>  
+            <a href="/players/<%= player._id %>/games" class="btn btn-primary">Add a Game</a>
+            <a href="/players/<%= player._id %>" class="btn btn-primary">Back to Player </a>  
         </div>
     </div>
 </div>    
-
-    

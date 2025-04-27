@@ -55,11 +55,18 @@ router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     res.render('players/edit', {player});
 }))
 
-router.put('/:id', isLoggedIn, validatePlayer, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, upload.single('image'), /*validatePlayer,*/ catchAsync(async (req, res) => {
     const { id } = req.params;
-    const player = await Player.findByIdAndUpdate(id, {...req.body.player}) // The spread operator ("...")  splits the req body into mult. objects
+    const updatedData = req.body.player
+    if (req.file) {
+        updatedData.image = {
+            url: req.file.path, 
+            filename: req.file.filename,
+        };
+    }
+    const player = await Player.findByIdAndUpdate(id, updatedData, { new: true });
     req.flash('success', 'Successfully updated player!');
-    res.redirect(`/players/${player._id}`)
+    res.redirect(`/players/${player._id}`);
 }))
 
 //Delete a Player

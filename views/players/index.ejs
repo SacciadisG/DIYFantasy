@@ -1,32 +1,46 @@
-    <% layout('layouts/boilerplate') %>
-    <h1>All Players!</h1>
-    <p>
-    <div class="card">
-        <a href="/players/new" class="btn btn-primary">Add Player</a>
-    </div>
-    </p>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th scope="col"> Player </th>
-                <th scope="col"> Fantasy Points </th>
-                <th scope="col"> Points </th>
-                <th scope="col"> Assists </th>
-                <th scope="col"> Rebounds </th>
-            </tr>
-        </thead>
-        <tbody>
-            <% for (let player of players) { %>
-                <tr> 
-                    <td> <a href="/players/<%= player._id %>"> <%= player.name%> </a> </td>
-                    <td> <%= player.averageFantasyPoints %> </td>
-                    <td> <%= player.averagePoints %> </td>
-                    <td> <%= player.averageAssists %> </td>
-                    <td> <%= player.averageRebounds %> </td>
-                    </td>
-                </tr>
-            <% } %>
-        </tbody>
-    </table>
+<% layout('layouts/boilerplate') %>
 
-   
+<h1>All Players!</h1>
+
+<div class="card mb-3">
+  <a href="/players/new" class="btn btn-primary">Add Player</a>
+</div>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Player</th>
+      <th scope="col">Fantasy Points</th>
+      <th scope="col">Points</th>
+      <th scope="col">Assists</th>
+      <th scope="col">Rebounds</th>
+      <th scope="col">Steals</th>
+      <th scope="col">Blocks</th>
+      <th scope="col">Turnovers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (let player of players) { %>
+      <tr> 
+        <td>
+          <a href="/players/<%= player._id %>" class="d-flex align-items-center gap-3">
+            <img 
+              src="<%= player.image.url %>" 
+              alt="<%= player.name %>" 
+              class="rounded-circle" 
+              style="width: 40px; height: 40px; object-fit: cover;"
+            >
+            <span><%= player.name %></span>
+          </a>
+        </td>
+        <td><%= player.averageFantasyPoints %></td>
+        <td><%= player.averagePoints %></td>
+        <td><%= player.averageAssists %></td>
+        <td><%= player.averageRebounds %></td>
+        <td><%= player.averageSteals %></td>
+        <td><%= player.averageBlocks %></td>
+        <td><%= player.averageTurnovers %></td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
